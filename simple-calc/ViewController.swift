@@ -31,7 +31,6 @@ class ViewController: UIViewController {
 	}
 	
 	var operations: Dictionary<String,Operation> = [
-		//		"±" : Operation.unaryOperation({ -$0 }),
 		"×" : Operation.binaryOperation({ $0 * $1 }),
 		"÷" : Operation.binaryOperation({ $0 / $1 }),
 		"+" : Operation.binaryOperation({ $0 + $1 }),
@@ -44,7 +43,6 @@ class ViewController: UIViewController {
 	var leftValStr = ""
 	var currentOperation: Operation = Operation.Empty
 	var result = ""
-	var arrMode : Bool = false
 	var arr : Array<Double> = []
 	
 	@IBAction func numberPressed(_ sender: UIButton!) {
@@ -71,7 +69,6 @@ class ViewController: UIViewController {
 			}
 			display.text = result
 			runningNumber = ""
-			arrMode = false
 			arr = []
 		}
 	}
@@ -122,10 +119,6 @@ class ViewController: UIViewController {
 	
 	
 	@IBAction func onArrayOperationPressed(_ sender: UIButton) {
-//		if !arrMode {
-//			arr.append(Double(leftValStr)!)
-//			arrMode = true
-//		}
 		arr.append(Double(runningNumber)!)
 		runningNumber = ""
 		currentOperation = Operation.arrayOperation(sender.currentTitle!)
