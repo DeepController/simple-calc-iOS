@@ -75,6 +75,9 @@
                                 <state key="normal" title="RPN">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="onRPNPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="scV-21-7cN"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1O-cf-QeH">
                                 <rect key="frame" x="188" y="199" width="94" height="94"/>

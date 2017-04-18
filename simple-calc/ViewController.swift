@@ -36,6 +36,8 @@ class ViewController: UIViewController {
 		"+" : Operation.binaryOperation({ $0 + $1 }),
 		"−" : Operation.binaryOperation({ $0 - $1 }),
 		"%" : Operation.binaryOperation({ $0.truncatingRemainder(dividingBy: $1) }),
+		"Count" : Operation.arrayOperation("Count"),
+		"Avg" : Operation.arrayOperation("Avg"),
 		"=" : Operation.equals
 	]
 	
@@ -44,6 +46,7 @@ class ViewController: UIViewController {
 	var currentOperation: Operation = Operation.Empty
 	var result = ""
 	var arr : Array<Double> = []
+	var RPN : Bool = false
 	
 	@IBAction func numberPressed(_ sender: UIButton!) {
 		runningNumber += sender.currentTitle!
@@ -51,25 +54,43 @@ class ViewController: UIViewController {
 	}
 	
 	@IBAction func commonOperationPressed(_ sender: UIButton) {
-		processOperation(operations[sender.currentTitle!]!)
+		if RPN {
+			processRPN(sender.currentTitle!)
+		} else {
+			processOperation(operations[sender.currentTitle!]!)
+		}
 	}
 	
+	@IBAction func onRPNPressed(_ sender: UIButton) {
+		if RPN {
+			RPN = false
+			sender.backgroundColor = UIColor.init(red: 0.327828, green: 0.327836, blue: 0.327832, alpha: 1.000)
+		} else {
+			RPN = true
+			sender.backgroundColor = UIColor.init(red: 0.969, green: 0.573, blue: 0.192, alpha: 1.000)
+		}
+	}
 	
 	@IBAction func onEqualPressed(_ sender: UIButton) {
-		if arr.count == 0 {
-			processOperation(currentOperation)
-			currentOperation = Operation.Empty
+		if !RPN {
+			if arr.count == 0 {
+				processOperation(currentOperation)
+				currentOperation = Operation.Empty
+			} else {
+				arr.append(Double(runningNumber)!)
+				switch currentOperation {
+				case .arrayOperation(let a) where a == "Count":
+					result = String(Double(arr.count))
+				default:
+					result = String(calculateAvg())
+				}
+				display.text = result
+				runningNumber = ""
+				arr = []
+			}
 		} else {
 			arr.append(Double(runningNumber)!)
-			switch currentOperation {
-			case .arrayOperation(let a) where a == "Count":
-				result = String(Double(arr.count))
-			default:
-				result = String(calculateAvg())
-			}
-			display.text = result
 			runningNumber = ""
-			arr = []
 		}
 	}
 	
@@ -107,26 +128,31 @@ class ViewController: UIViewController {
 	}
 	
 	@IBAction func onFactPressed(_ sender: UIButton) {
-		let upper = Int(runningNumber)!
-		var product = 1
-		for num in 1...upper {
-			product *= num
+		if !RPN {
+			let upper = Int(runningNumber)!
+			var product = 1
+			for num in 1...upper {
+				product *= num
+			}
+			result = String(product)
+			runningNumber = ""
+			display.text = result
 		}
-		result = String(product)
-		runningNumber = ""
-		display.text = result
 	}
 	
 	
 	@IBAction func onArrayOperationPressed(_ sender: UIButton) {
-		arr.append(Double(runningNumber)!)
-		runningNumber = ""
-		currentOperation = Operation.arrayOperation(sender.currentTitle!)
-		print(arr)
+		if !RPN {
+			arr.append(Double(runningNumber)!)
+			runningNumber = ""
+			currentOperation = Operation.arrayOperation(sender.currentTitle!)
+		} else {
+			processRPN(sender.currentTitle!)
+		}
 	}
 	
 	func processOperation(_ op: Operation) {
-		print("Before: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
+//		print("Before: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
 		if !(currentOperation == Operation.Empty) {
 			if runningNumber != "" {
 				switch op {
@@ -152,9 +178,49 @@ class ViewController: UIViewController {
 			runningNumber = ""
 			currentOperation = op
 		}
-		print("After: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
+//		print("After: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
 	}
 	
+	fileprivate func processRPN(_ op : String) {
+		switch op {
+		case "+" :
+			display.text = String(arr.reduce(0, +))
+		case "−" :
+			display.text = String(calculateArraySubtract())
+		case "×" :
+			display.text = String(arr.reduce(1, *))
+		case "÷" :
+			display.text = String(calculateArrayDivision())
+		case "Count" :
+			display.text = String(arr.count)
+		case "Avg" :
+			display.text = String(calculateAvg())
+		default:
+			break
+		}
+		runningNumber = ""
+		arr = []
+	}
+	
+	fileprivate func calculateArrayDivision() -> Double {
+		var quo = arr[0]
+		if arr.count > 1 {
+			for i in (1...arr.count - 1) {
+				quo /= arr[i]
+			}
+		}
+		return quo
+	}
+	
+	fileprivate func calculateArraySubtract() -> Double {
+		var res = arr[0]
+		if arr.count > 1 {
+			for i in (1...arr.count - 1) {
+				res -= arr[i]
+			}
+		}
+		return res
+	}
 	
 	
 	

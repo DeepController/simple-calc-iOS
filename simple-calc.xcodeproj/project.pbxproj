@@ -12,7 +12,6 @@
 		3D8BF1CA1EA1DD1A009E935A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D8BF1C81EA1DD1A009E935A /* Main.storyboard */; };
 		3D8BF1CC1EA1DD1A009E935A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D8BF1CB1EA1DD1A009E935A /* Assets.xcassets */; };
 		3D8BF1CF1EA1DD1A009E935A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D8BF1CD1EA1DD1A009E935A /* LaunchScreen.storyboard */; };
-		3D8BF1D81EA1F658009E935A /* Brain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8BF1D71EA1F658009E935A /* Brain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +22,6 @@
 		3D8BF1CB1EA1DD1A009E935A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D8BF1CE1EA1DD1A009E935A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D8BF1D01EA1DD1A009E935A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3D8BF1D71EA1F658009E935A /* Brain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Brain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +56,6 @@
 			children = (
 				3D8BF1C41EA1DD1A009E935A /* AppDelegate.swift */,
 				3D8BF1C61EA1DD1A009E935A /* ViewController.swift */,
-				3D8BF1D71EA1F658009E935A /* Brain.swift */,
 				3D8BF1C81EA1DD1A009E935A /* Main.storyboard */,
 				3D8BF1CB1EA1DD1A009E935A /* Assets.xcassets */,
 				3D8BF1CD1EA1DD1A009E935A /* LaunchScreen.storyboard */,
@@ -141,7 +138,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D8BF1C71EA1DD1A009E935A /* ViewController.swift in Sources */,
-				3D8BF1D81EA1F658009E935A /* Brain.swift in Sources */,
 				3D8BF1C51EA1DD1A009E935A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,6 +308,7 @@
 				3D8BF1D51EA1DD1A009E935A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
