@@ -1,15 +1,15 @@
 //
 //  ViewController.swift
-//  simple-calc
+//  SimpleCalc2
 //
-//  Created by William on 4/14/17.
+//  Created by William on 4/19/17.
 //  Copyright © 2017 Yang Wang. All rights reserved.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-	
+
 	@IBOutlet fileprivate weak var display: UILabel!
 	
 	enum Operation {
@@ -152,7 +152,7 @@ class ViewController: UIViewController {
 	}
 	
 	func processOperation(_ op: Operation) {
-//		print("Before: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
+		//		print("Before: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
 		if !(currentOperation == Operation.Empty) {
 			if runningNumber != "" {
 				switch op {
@@ -178,7 +178,7 @@ class ViewController: UIViewController {
 			runningNumber = ""
 			currentOperation = op
 		}
-//		print("After: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
+		//		print("After: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
 	}
 	
 	fileprivate func processRPN(_ op : String) {
@@ -243,7 +243,5 @@ class ViewController: UIViewController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-	
-	
 }
 
