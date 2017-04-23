@@ -47,6 +47,7 @@ class ViewController: UIViewController {
 	var result = ""
 	var arr : Array<Double> = []
 	var RPN : Bool = false
+	var history = ""
 	
 	@IBAction func numberPressed(_ sender: UIButton!) {
 		runningNumber += sender.currentTitle!
@@ -55,8 +56,20 @@ class ViewController: UIViewController {
 	
 	@IBAction func commonOperationPressed(_ sender: UIButton) {
 		if RPN {
+			history += String(arr[0])
+			if arr.count > 1 {
+				for i in (1...arr.count - 1) {
+					history += " " + sender.currentTitle! + " " + String(arr[i])
+				}
+			}
+			history += " = "
 			processRPN(sender.currentTitle!)
 		} else {
+			if runningNumber == "" {
+				history += "\(leftValStr) \(sender.currentTitle!) "
+			} else {
+				history += "\(runningNumber) \(sender.currentTitle!) "
+			}
 			processOperation(operations[sender.currentTitle!]!)
 		}
 	}
@@ -74,16 +87,36 @@ class ViewController: UIViewController {
 	@IBAction func onEqualPressed(_ sender: UIButton) {
 		if !RPN {
 			if arr.count == 0 {
+				history += "\(runningNumber) = "
 				processOperation(currentOperation)
+				history += display.text!
+				HistoryViewController.addHistory(history)
+				history = ""
 				currentOperation = Operation.Empty
 			} else {
 				arr.append(Double(runningNumber)!)
+				var whichOp = true
 				switch currentOperation {
 				case .arrayOperation(let a) where a == "Count":
 					result = String(Double(arr.count))
+					whichOp = true
 				default:
 					result = String(calculateAvg())
+					whichOp = false
 				}
+				history += String(arr[0])
+				if arr.count > 1 {
+					for i in (1...arr.count - 1) {
+						if whichOp {
+							history += " Count " + String(arr[i])
+						} else {
+							history += " Avg " + String(arr[i])
+						}
+					}
+				}
+				history += " = \(result)"
+				HistoryViewController.addHistory(history)
+				history = ""
 				display.text = result
 				runningNumber = ""
 				arr = []
@@ -109,6 +142,7 @@ class ViewController: UIViewController {
 			leftValStr = ""
 			runningNumber = ""
 			result = ""
+			history = ""
 			currentOperation = Operation.Empty
 			sender.setTitle("C", for: .normal)
 		}
@@ -135,6 +169,7 @@ class ViewController: UIViewController {
 				product *= num
 			}
 			result = String(product)
+			HistoryViewController.addHistory("\(runningNumber) Fact = \(result)")
 			runningNumber = ""
 			display.text = result
 		}
@@ -159,12 +194,13 @@ class ViewController: UIViewController {
 				case .binaryOperation(let f):
 					if Double(leftValStr) == nil {
 						leftValStr = result
+						print(leftValStr)
 					}
 					result = "\(f(Double(leftValStr)!, Double(runningNumber)!))"
 				default:
 					break
 				}
-				
+//				history += result
 				runningNumber = ""
 			}
 			leftValStr = result
@@ -178,7 +214,7 @@ class ViewController: UIViewController {
 			runningNumber = ""
 			currentOperation = op
 		}
-		//		print("After: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)")
+//		print("After: \n\trunning number : \(runningNumber)\n\tLeft : \(leftValStr)\n\tRight : \(runningNumber)\n\tcurrent op Empty? \(currentOperation == Operation.Empty)\n\tresult : \(result)")
 	}
 	
 	fileprivate func processRPN(_ op : String) {
@@ -198,6 +234,9 @@ class ViewController: UIViewController {
 		default:
 			break
 		}
+		history += display.text!
+		HistoryViewController.addHistory(history)
+		history = ""
 		runningNumber = ""
 		arr = []
 	}
